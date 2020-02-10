@@ -28,14 +28,32 @@ server.get('/api/users', (req, res) => {
 server.get('/api/users/:id', (req, res) => {
     const { id } = req.params;
 
-    Users.findById(id).then(user => {
+    Users.findById(id)
+        .then(user => {
         res.status(200).json(user)
-    }).catch(err => {
+    })
+        .catch(err => {
         if (!id) {
             res.status(404).json({ errorMessage: 'The user with the specified ID does not exist.'})
         }
         res.status(500).json({ errorMessage: 'The user information could not be retrieved.' })
     })
+})
+
+// add user
+server.post('/api/users', (req, res) => {
+    const userInfo = req.body;
+
+    Users.insert(userInfo)
+        .then(user => {
+            res.status(201).json(user)
+        }).catch(err => {
+            if(!req.body.name || !req.body.bio) {
+                res.status(400).json({ errorMessage: 'Please provide name and bio for the user.' })
+            }
+            res.status(500).json({ errorMessage: 'There was an error while saving the user to the database'})
+            
+        })
 })
 
 const port = 5000;
