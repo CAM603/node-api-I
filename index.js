@@ -56,5 +56,25 @@ server.post('/api/users', (req, res) => {
         })
 })
 
+// update user
+server.put('/api/users/:id', (req, res) => {
+    const newUser = req.body;
+    const { id } = req.params;
+
+    Users.update(id, newUser)
+        .then(user => {
+            res.status(200).json(user)
+        })
+        .catch(err => {
+            if(!id) {
+                res.status(404).json({ errorMessage: 'The user with the specified ID does not exist.'})
+            }
+            if(!req.body.name || !req.body.bio) {
+                res.status(400).json({ errorMessage: 'Please provide name and bio for the user.'})
+            }
+            res.status(500).json({ errorMessage: 'The user information could not be modified.'})
+        })
+})
+
 const port = 5000;
 server.listen(port, () => console.log(`API on port ${port}`))
