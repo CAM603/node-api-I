@@ -6,6 +6,7 @@ const Users = require('./data/db');
 const server = express();
 
 server.use(express.json())
+server.use(cors())
 
 // Test
 server.get('/', (req, res) => {
