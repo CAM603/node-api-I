@@ -72,7 +72,9 @@ server.put('/api/users/:id', (req, res) => {
             } else if (!req.body.name || !req.body.bio) {
                 res.status(400).json({ errorMessage: 'Please provide name and bio for the user.'})
             } else {
-                res.status(200).json(user)
+                Users.findById(id).then(user => {
+                    res.status(200).json(user)
+                }).catch()
             }
         })
         .catch(err => {
