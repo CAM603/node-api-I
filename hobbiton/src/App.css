@@ -1,0 +1,12 @@
+.App {
+  text-align: center;
+}
+
+.user-container {
+  display: flex;
+  justify-content: space-between;
+
+}
+.user-card {
+  border: solid black 5px;
+}
